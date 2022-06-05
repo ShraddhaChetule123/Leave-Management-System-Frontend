@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community';
 import { CommonService } from '../common.service';
 
 
@@ -72,9 +72,8 @@ export class ManagersComponent implements OnInit {
   }
 
   onGridReady(params:any){
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
     params.api.setRowData(this.rowData)
+    params.api.sizeColumnsToFit();
   }
 
   onCellClicked(event:any){
