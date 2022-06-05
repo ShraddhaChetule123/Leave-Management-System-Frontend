@@ -1,0 +1,103 @@
+<div id="layoutSidenav_content" style="margin: 10% 5% 5% 25%; padding-bottom: 5%">
+  <main>
+
+    <form #onboardingForm class="mt-4" id="onboarding_form">
+
+      <div class="row mt-4 justify-content-center">
+        <div class="col-md-6">
+          <label>First name</label>
+          <input type="text" class="form-control" name="fname" [(ngModel)]="emp.fname" placeholder="First name"  required>
+        </div>
+        <div class="col-md-6">
+          <label>Last name</label>
+          <input type="text" class="form-control" name="laname" [(ngModel)]="emp.lname" placeholder="Last name" required>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Address</label>
+          <input type="text" class="form-control" name="address" [(ngModel)]="emp.address" placeholder="Address"  required>
+        </div>
+        <div class="col-md-6">
+          <label>Mobile No</label>
+          <input type="number" class="form-control" name="contact" [(ngModel)]="emp.contactno" placeholder="Mobile No"  required>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Experience</label>
+          <input type="text" class="form-control" name="exp" [(ngModel)]="emp.experiance" placeholder="Experience" required>
+        </div>
+        <div class="col-md-6">
+          <label>Blood Group</label>
+          <input type="text" class="form-control" name="blood_group" [(ngModel)]="emp.blood_group" placeholder="Blood Group" required>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Marital Status</label>
+          <input type="text" class="form-control" name="marital_status" [(ngModel)]="emp.marital_status" placeholder="Experience" required>
+        </div>
+        <div class="col-md-6">
+          <label>Date of Birth</label>
+          <input type="text" class="form-control" name="dob" [(ngModel)]="emp.dob" placeholder="Blood Group" required>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label for="">Department</label>
+          <select name="department" [(ngModel)]="emp.department" required class="form-control">
+            <option *ngFor="let  dpt of departments" value="{{dpt.dept_id}}">{{dpt.dept_name}}</option>
+          </select>
+
+        </div>
+        <div class="col-md-6">
+          <label for="">Reporting Manager</label>
+          <select name="manager" [(ngModel)]="emp.manager" id="" required class="form-control">
+            <option *ngFor="let  mng of managers" value="{{mng.mid}}">{{mng.user_id.fname}} {{mng.user_id.lname}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Previous account info</label>
+          <input type="text" name="userinfo" class="form-control" [(ngModel)]="emp.user_info" (keyup)="searchUser()" placeholder="Enter user info" required>
+        </div>
+
+          <div class="col-md-6 mt-4">
+            <div class="row">
+              <button class="btn btn-outline-info col-5" [disabled]="modal_enable" id="modal_btn" (click)="openUserAddModel(user_add_modal)">ADD NEW USER</button>
+              <p class="col-1"></p>
+              <button class="btn btn-outline-primary col-6" type="submit" (click)="initiateOnboard()">ONBOARD START</button>
+            </div>
+
+          </div>
+
+
+      </div>
+
+    </form>
+  </main>
+</div>
+
+
+<ng-template #user_add_modal let-c="close" let-d="dismiss">
+  <form>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create new account</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <input type="email" [(ngModel)]="useraccount.username" placeholder="Enter email address" class="form-control mb-3"  name="username">
+    <input type="password" [(ngModel)]="useraccount.password" placeholder="Enter Password" class="form-control nb-3" name="password1">
+    <br>
+    <input type="password" [(ngModel)]="useraccount.password2" placeholder="Confirm Password" class="form-control mb-3" name="password2">
+    <input type="text" [(ngModel)]="useraccount.fname" placeholder="First Name" class="form-control mb-3" name="fname">
+    <input type="text" [(ngModel)]="useraccount.lname" placeholder="Last Name" class="form-control mb-3" name="lname">
+  </div>
+  <div class="modal-footer">
+<!--    <p class="text-center text-danger me-auto" *ngIf="">Invalid Input</p>-->
+    <button type="submit" class="btn btn-outline-info" (click)="register()" [disabled]="">Apply</button>
+  </div>
+  </form>
+</ng-template>

@@ -1,0 +1,46 @@
+
+<div class='demo-app'>
+
+  <div class='demo-app-main'>
+    <full-calendar
+      [options]='calendarOptions'
+    ></full-calendar>
+  </div>
+
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Apply for leave</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <input type="number" [(ngModel)]="days" placeholder="How many days?" class="form-control">
+    <input type="text" [(ngModel)]="reason" placeholder="Why do you want leave ?" class="form-control">
+  </div>
+  <div class="modal-footer">
+    <p class="text-center text-danger me-auto" *ngIf="disable">Invalid Input</p>
+    <button type="button" class="btn btn-outline-info" (click)="applyLeave()" [disabled]="disable">Apply</button>
+  </div>
+</ng-template>
+
+<ng-template #leave_details let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-leave-details">Apply for leave</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text"><b>Title: </b>{{details_event.title}}</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <p class="text-center text-danger me-auto" *ngIf="disable">Invalid Input</p>
+    <button type="button" class="btn btn-outline-danger" (click)="removeEvent()" [disabled]="disable">Remove</button>
+  </div>
+</ng-template>
+

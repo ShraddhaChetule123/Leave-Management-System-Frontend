@@ -1,0 +1,108 @@
+<!--<div id="layoutSidenav_content" style="margin: 10% 5% 20% 20%; padding-bottom: 5%">-->
+<ag-grid-angular
+  style="width: 70%; height: 50%; margin: 5% 5% 5% 25%;"
+  class="ag-theme-balham-dark"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [rowData]="rowData"
+  [rowSelection]="'single'"
+  [animateRows]="true"
+  (gridReady)="onGridReady($event)"
+  (cellClicked)="onCellClicked($event)"
+></ag-grid-angular>
+<div class="container" style="margin: 5% 5% 5% 25%">
+
+    <div class="row">
+      <div class="col">
+        <button (click)="assignManagerToClient(assignManager)" [disabled]="disable_assign_manager" class="btn btn-outline-info btn-dark">Assign Manager</button>
+        <button (click)="makeManager()" [disabled]="disable_make_manager" class="btn btn-outline-info btn-dark">Make Manager</button>
+        <button (click)="assignHardware()" [disabled]="disable_assign_hardware" class="btn btn-outline-info btn-dark">Assign Hardware</button>
+        <button (click)="editEmp(edit_modal)" [disabled]="disable_edit" class="btn btn-outline-info btn-dark">Edit</button>
+
+      </div>
+    </div>
+  </div>
+<!--</div>-->
+
+
+<ng-template #edit_modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-basic-title">Update Employee</h6>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+
+    <form #onboardingForm class="mt-4" id="onboarding_form">
+      <div class="row mt-4 justify-content-center">
+        <div class="col-md-6">
+          <label>First name</label>
+          <input type="text" class="form-control" name="fname" [(ngModel)]="emp.user_id.fname" placeholder="First name"  required>
+        </div>
+        <div class="col-md-6">
+          <label>Last name</label>
+          <input type="text" class="form-control" name="laname" [(ngModel)]="emp.user_id.lname" placeholder="Last name" required>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Address</label>
+          <input type="text" class="form-control" name="address" [(ngModel)]="emp.address" placeholder="Address"  required>
+        </div>
+        <div class="col-md-6">
+          <label>Mobile No</label>
+          <input type="number" class="form-control" name="contact" [(ngModel)]="emp.contact_no" placeholder="Mobile No"  required>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Experience</label>
+          <input type="text" class="form-control" name="exp" [(ngModel)]="emp.experiance" placeholder="Experience" required>
+        </div>
+        <div class="col-md-6">
+          <label>Blood Group</label>
+          <input type="text" class="form-control" name="blood_group" [(ngModel)]="emp.blood_group" placeholder="Blood Group" required>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <label>Marital Status</label>
+          <input type="text" class="form-control" name="marital_status" [(ngModel)]="emp.marital_status" placeholder="Experience" required>
+        </div>
+        <div class="col-md-6">
+          <label>Date of Birth</label>
+          <input type="text" class="form-control" name="dob" [(ngModel)]="emp.dob" placeholder="Blood Group" required>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-info" (click)="updateEmployee()" [disabled]="">Update</button>
+  </div>
+</ng-template>
+
+<ng-template #view_manager let-c="close" let-d="dismiss">
+
+  <div class="modal-header" *ngFor="let m of managers">
+    <h6>{{m.user_id.fname}}</h6>
+    <h6 class="modal-title" *ngIf="m.mid==selected_manager" id="modal-manager-title">{{m.user_id.fname}} {{m.user_id.lname}</h6>
+  </div>
+  <div class="modal-footer">
+        <button type="button" class="btn btn-outline-info" (click)="d('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #assignManager let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="">Select Manager</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <select name="managers" *ngFor="let manager of managers" class="form-control" [(ngModel)]="selected_manager">
+      <option  value="{{manager.mid}}">{{manager.user_id.fname}} {{manager.user_id.lname}}</option>
+    </select>
+  </div>
+  <div class="modal-footer justify-content-center text-center">
+    <button type="button" class="btn btn-outline-info" (click)="assignNow()">Assign</button>
+  </div>
+</ng-template>
