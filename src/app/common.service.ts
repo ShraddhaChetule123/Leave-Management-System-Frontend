@@ -28,8 +28,7 @@ export class CommonService {
   }
 
   logout(token:any){
-      return this._http.post<any>(environment.url+'/logout',
-        {headers:new HttpHeaders({'Authorization': token})});
+      return this._http.post<any>(environment.url+'/logout',{}, this.getHeader(token));
   }
 
   validate_login(param: { renew: any; token: string }) {
@@ -122,6 +121,6 @@ export class CommonService {
     return this._http.delete<any>(environment.url+'/leaves/delete', options)
   }
   update_leave(token:string, body:any){
-    return this._http.put<any>(environment.url+'leaves/update',body,this.getHeader(token))
+    return this._http.put<any>(environment.url+'/leaves/update',body,this.getHeader(token))
   }
 }

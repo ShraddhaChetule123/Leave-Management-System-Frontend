@@ -80,10 +80,10 @@ export class CalendarComponent implements OnInit {
     this.details_event = clickInfo.event._def.extendedProps
     this.date = new Date((this.details_event.leave_data==null)?this.details_event.leave_req_data.request_date:this.details_event.leave_data.leave_req_data.request_date)
     console.log(this.details_event);
-    
+    this.modalService.dismissAll()
     this.services.getTokenUser(this.token).subscribe(resp=>{
       if(resp['status']==true){
-        if(this.details_event.applier!=resp['data']['id']){
+        if(this.details_event.applier==resp['data']['id']){
           this.modalService.open(this.leave_details)
         }else{
          this.request_id = (this.details_event.leave_data!=null) ? this.details_event.leave_data.request_id:this.details_event.leave_req_data.request_id
@@ -204,6 +204,7 @@ export class CalendarComponent implements OnInit {
       }else{
         this.toastr.error(resp['message'])
       }
+      this.modalService.dismissAll()
     })
 
   }
