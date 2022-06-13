@@ -17,6 +17,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class CalendarComponent implements OnInit {
   @ViewChild('content', { static: false }) private content: any;
   @ViewChild('leave_details', { static: false }) private leave_details: any;
+  @ViewChild('approve_ui', { static: false }) private approve_ui: any;
   public leave_req_on = []
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -44,6 +45,16 @@ export class CalendarComponent implements OnInit {
   details_event:any;
   modal_click_info:any;
   today : any;
+  date: any;
+  requester : any;
+  applier :any = {
+    fname : "",
+    lname: ""
+  };
+  request_id: any;
+  leave_type : any;
+  lt:any;
+  halfday:any;
 
   getNumberOfWeekDays(start:any, end:any, dayNum:any){
     dayNum = dayNum || 0;
@@ -55,11 +66,16 @@ export class CalendarComponent implements OnInit {
 
   handleDateSelect(selectInfo: any) {
     this.selected_date = selectInfo['startStr']
+    this.loadLeaveType()
     if(this.today<=this.selected_date){
       if(new Date(this.selected_date).getDay() == 6 || new Date(this.selected_date).getDay() == 0){
         this.snackbr.open("Can't apply leave on weekend", "OK")
       }else{
+        this.days = (this.halfday)?0.5:this.days
         this.modalService.open(this.content)
+        // if (this.lt=='0'){
+        //   this.disable = true
+        // }
       }
     }else{
       
@@ -67,10 +83,43 @@ export class CalendarComponent implements OnInit {
       
   }
 
+  loadLeaveType(){
+    this.services.load_leave_types(this.token).subscribe(response=>{
+      if(response['status']==true){
+        this.leave_type = response['data']
+      }
+    })
+  }
+
   handleEventClick(clickInfo: any) {
     this.modal_click_info = clickInfo
-    this.modalService.open(this.leave_details)
     this.details_event = clickInfo.event._def.extendedProps
+    this.date = new Date((this.details_event.leave_data==null)?this.details_event.leave_req_data.request_date:this.details_event.leave_data.leave_req_data.request_date)
+    this.modalService.dismissAll()
+    this.services.getTokenUser(this.token).subscribe(resp=>{
+      if(resp['status']==true){
+        if(this.details_event.applier==resp['data']['id']){
+          this.modalService.open(this.leave_details)
+        }else{
+         this.request_id = (this.details_event.leave_data!=null) ? this.details_event.leave_data.request_id:this.details_event.leave_req_data.request_id
+          // this.services.getLeaveRequest(this.token, request_id).subscribe(response=>{
+          //   console.log(response);
+          // })
+          this.services.get_user(this.details_event.applier, this.token).subscribe(resp=>{
+            if (resp['status']==true){
+              this.applier = resp['data']
+              
+            }
+          })
+          this.modalService.open(this.approve_ui)
+        }
+      }else{
+        console.error(resp['message']);
+        
+      }
+      
+    })
+
   }
   constructor(config: NgbModalConfig, private modalService: NgbModal, private services : CommonService, 
     private toastr : ToastrService, private router : Router, private snackbr: MatSnackBar) {
@@ -92,9 +141,7 @@ export class CalendarComponent implements OnInit {
   }
 
   removeEvent(){
-
     let id = null
-    console.log(this.details_event);
     let event = this.modal_click_info.event._def.extendedProps
     if (event.leave_data==null || event.leave_data.length==0){
        id = event.leave_req_data['request_id'];
@@ -115,11 +162,10 @@ export class CalendarComponent implements OnInit {
   }
 
   loadLeaves(){
-
     if (this.token!=undefined) {
       this.services.getMyLeaves(this.token).subscribe(response => {
         if(response['status']){
-          if(response['data']['approved'].length==0){
+          if(response['data']['approved']==null || response['data']['approved'].length==0){
             this.leave_req_on = response['data']['requested']
             this.calendarOptions.events = this.leave_req_on
           }else {
@@ -147,15 +193,31 @@ export class CalendarComponent implements OnInit {
     this.services.apply_leaves(this.token, body).subscribe(response=>{
       if(response['status']==true){
         this.toastr.success(response['message'])
-        this.loadLeaves()
       }else {
-        this.toastr.success(response['message'])
-        this.loadLeaves()
+        this.toastr.error(response['message'])
       }
+      this.loadLeaves()
       this.days = null
       this.reason = null
     })
     this.modalService.dismissAll()
+
+  }
+
+  update(request_id:any, status:string){
+    let body = {
+      request_id : request_id,
+      status : status
+    }
+    this.services.update_leave(this.token,body).subscribe(resp=>{
+      if(resp['status']==true){
+        this.toastr.success(resp['message'])
+        this.loadLeaves()
+      }else{
+        this.toastr.error(resp['message'])
+      }
+      this.modalService.dismissAll()
+    })
 
   }
 }

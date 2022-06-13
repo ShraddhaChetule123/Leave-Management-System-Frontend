@@ -19,9 +19,9 @@ export class HeaderComponent implements OnInit {
   logout() {
     const token = localStorage.getItem("token")
     const user_id = localStorage.getItem("user_id")
-
     this.services.logout(token).subscribe(response=>{
       if(response['status']==true){
+        localStorage.removeItem('token')
         this.toastr.success(response['message'])
         this.router.navigate(['/login'])
       }else{

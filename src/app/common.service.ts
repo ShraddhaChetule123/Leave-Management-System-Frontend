@@ -6,6 +6,19 @@ import {environment} from "../environments/environment";
   providedIn: 'root'
 })
 export class CommonService {
+  valid_password(token: any, password: any) {
+    return this._http.post<any>(environment.url+'/password_validation', {password:password}, this.getHeader(token))
+  }
+  add_univ( url:string, token: string, body: any) {
+    return this._http.post<any>(url, body, this.getHeader(token))
+  }
+  load_leave_types(token:string) {
+    return this._http.get<any>(environment.url+'/leaves/type', this.getHeader(token))
+  }
+
+  getLeaveRequest(token: any, request_id: any) {
+    return this._http.get<any>(environment.url+'/leaves/'+request_id, this.getHeader(token))
+  }
 
 
   constructor(private _http: HttpClient) {}
@@ -24,8 +37,7 @@ export class CommonService {
   }
 
   logout(token:any){
-      return this._http.post<any>(environment.url+'/logout',
-        {headers:new HttpHeaders({'Authorization': token})});
+      return this._http.post<any>(environment.url+'/logout',{}, this.getHeader(token));
   }
 
   validate_login(param: { renew: any; token: string }) {
@@ -44,6 +56,10 @@ export class CommonService {
 
   getMyLeaves(token: string) {
     return this._http.get<any>(environment.url+'/leaves/my_leaves', {headers : new HttpHeaders({'Authorization': token})});
+  }
+
+  getLeaves(token: string, q:string) {
+    return this._http.get<any>(environment.url+'/leaves?q='+q, {headers : new HttpHeaders({'Authorization': token})});
   }
 
   onboard(emp: any,token:string) {
@@ -112,5 +128,8 @@ export class CommonService {
   delete_leaves(token:any, id:any){
     let options= {headers : new HttpHeaders({'Authorization': token}), body : {id:id}}
     return this._http.delete<any>(environment.url+'/leaves/delete', options)
+  }
+  update_leave(token:string, body:any){
+    return this._http.put<any>(environment.url+'/leaves/update',body,this.getHeader(token))
   }
 }
