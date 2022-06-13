@@ -29,6 +29,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 
+
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,

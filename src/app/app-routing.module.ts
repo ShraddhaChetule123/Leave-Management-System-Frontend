@@ -8,6 +8,7 @@ import {OnboardComponent} from "./onboard/onboard.component";
 import {EmployeeComponent} from "./employee/employee.component";
 import {LeavesComponent} from "./leaves/leaves.component";
 import { ManagersComponent } from './managers/managers.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes  = [
   {
@@ -41,6 +42,10 @@ const routes: Routes  = [
   {
     path:'manager',
     component: ManagersComponent
+  },
+  {
+    path:'settings',
+    component:SettingsComponent
   }
 
 ]
@@ -58,5 +63,6 @@ export const routingComponents = [
   OnboardComponent,
   EmployeeComponent,
   LeavesComponent,
-  ManagersComponent
+  ManagersComponent,
+  SettingsComponent
 ]

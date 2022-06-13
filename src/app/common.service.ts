@@ -6,6 +6,15 @@ import {environment} from "../environments/environment";
   providedIn: 'root'
 })
 export class CommonService {
+  valid_password(token: any, password: any) {
+    return this._http.post<any>(environment.url+'/password_validation', {password:password}, this.getHeader(token))
+  }
+  add_univ( url:string, token: string, body: any) {
+    return this._http.post<any>(url, body, this.getHeader(token))
+  }
+  load_leave_types(token:string) {
+    return this._http.get<any>(environment.url+'/leaves/type', this.getHeader(token))
+  }
 
   getLeaveRequest(token: any, request_id: any) {
     return this._http.get<any>(environment.url+'/leaves/'+request_id, this.getHeader(token))

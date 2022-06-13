@@ -16,7 +16,20 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <input type="number" [(ngModel)]="days" placeholder="How many days?" class="form-control">
+    <select name="leave_type" id="ltype" class="form-control" [(ngModel)] = "lt">
+      <option value="0">Select Leave Type</option>
+      <option *ngFor="let lt of leave_type" value="lt.id">{{lt.title}}</option>
+    </select><br>
+    <div class="row input-group">
+      <div class="col-9 justify-content-center">
+        <input type="number" [(ngModel)]="days" placeholder="How many days?" class="form-control" [disabled]="halfday">
+      </div>
+      <div class="col-3">
+        <input type="checkbox" name="halfday" id="" [(ngModel)]="halfday"> <label for="">Half Day</label>
+      </div>
+      
+    </div>
+    <br>
     <input type="text" [(ngModel)]="reason" placeholder="Why do you want leave ?" class="form-control">
   </div>
   <div class="modal-footer">
