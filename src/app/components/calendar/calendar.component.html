@@ -51,6 +51,7 @@
         <p class="card-text"><b>Request Date: </b>{{date | date: 'medium'}}</p>
         <p class="card-text"><b>Duration: </b>{{(details_event.leave_data==null)?details_event.leave_req_data.duration:details_event.leave_data.leave_req_data.duration}} Days</p>
         <p class="card-text"><b>Status: </b>{{(details_event.leave_data==null)?details_event.leave_req_data.status:details_event.leave_data.leave_req_data.status}}</p>
+        <p class="card-text"><b>Status: </b>{{(details_event.leave_data==null)?details_event.leave_req_data.request_id:details_event.leave_data.leave_req_data.request_id}}</p>
       </div>
     </div>
 
@@ -58,8 +59,8 @@
   <div class="modal-footer">
     <p class="text-center text-danger me-auto" *ngIf="disable">Invalid Input</p>
     <button type="button" class="btn btn-outline-danger" (click)="removeEvent()" [disabled]="disable">Remove</button>
-    <button type="button" class="btn btn-outline-success" (click)="update(request_id,'approved')" *ngIf="userArray.user_role==3">Accept </button>
-    <button type="button" class="btn btn-outline-danger" (click)="update(request_id,'rejected')" *ngIf="userArray.user_role==3">Reject</button>
+    <button type="button" class="btn btn-outline-success" (click)="update((details_event.leave_data==null)?details_event.leave_req_data.request_id:details_event.leave_data.leave_req_data.request_id,'approved')" *ngIf="userArray.user_role==3">Accept </button>
+    <button type="button" class="btn btn-outline-danger" (click)="update((details_event.leave_data==null)?details_event.leave_req_data.request_id:details_event.leave_data.leave_req_data.request_id,'rejected')" *ngIf="userArray.user_role==3">Reject</button>
   </div>
 </ng-template>
 

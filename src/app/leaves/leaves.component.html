@@ -19,6 +19,12 @@
                     (cellClicked)="onCellClicked($event)"
                   ></ag-grid-angular>
                 </div>
+                <div class="container-fluid mt-4 ms-4">
+                    
+                        <button type="button" (click)="update(request_id,'approved')" class="btn btn-outline-success col me-4" *ngIf="approve_disable">Approve</button>
+                        <button type="button" (click)="update(request_id,'rejected')" class="btn btn-outline-danger col me-4" *ngIf="reject_disable">Reject</button>
+                        <button type="button" (click)="update(request_id,'deleted')" class="btn btn-outline-danger col" *ngIf="delete_disable">Delete</button>
+                </div>
             </main>
         </div>
     </div>

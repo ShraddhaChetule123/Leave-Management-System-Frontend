@@ -6,6 +6,9 @@ import {environment} from "../environments/environment";
   providedIn: 'root'
 })
 export class CommonService {
+  get_all_leaves(token: any) {
+    return this._http.get<any>(environment.url+'/leaves', this.getHeader(token))
+  }
   valid_password(token: any, password: any) {
     return this._http.post<any>(environment.url+'/password_validation', {password:password}, this.getHeader(token))
   }

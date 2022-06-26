@@ -3,6 +3,7 @@ import {CellClickedEvent, ColDef, GridReadyEvent} from "ag-grid-community";
 import {CommonService} from "../../common.service";
 import {ToastrService} from "ngx-toastr";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import { environment } from 'src/environments/environment';
 
 
 
@@ -165,7 +166,16 @@ export class ListEmployeeComponent implements OnInit {
 
 
   makeManager() {
-
+    let body = {
+      user_id : this.selectedRow.user_id.id
+    }
+    this.services.add_univ(environment.url+'/employee/makemanager', this.token, body).subscribe(response=>{
+      if(response['status']){
+        this.toastr.success(response['message'])
+      }else{
+        this.toastr.error(response['message'])
+      }
+    })
   }
 
   assignHardware() {
@@ -196,6 +206,8 @@ export class ListEmployeeComponent implements OnInit {
   }
 
   assignNow() {
+    console.log("Clicked");
+    
     let body = {
       eid:this.selectedRow.eid,
       rep_manager_id:this.selected_manager
@@ -207,6 +219,7 @@ export class ListEmployeeComponent implements OnInit {
       }else {
         this.toastr.error(up['message'])
       }
+      this.modalServices.dismissAll()
     })
   }
 

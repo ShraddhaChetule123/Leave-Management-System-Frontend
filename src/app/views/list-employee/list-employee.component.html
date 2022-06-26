@@ -99,8 +99,9 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <select name="managers" *ngFor="let manager of managers" class="form-control" [(ngModel)]="selected_manager">
-      <option  value="{{manager.mid}}">{{manager.user_id.fname}} {{manager.user_id.lname}}</option>
+    <label for="managers">Select Manager</label>
+    <select name="managers" class="form-control" [(ngModel)]="selected_manager">
+      <option *ngFor="let manager of managers"  value="{{manager.mid}}">{{manager.user_id.fname}} {{manager.user_id.lname}}</option>
     </select>
   </div>
   <div class="modal-footer justify-content-center text-center">
