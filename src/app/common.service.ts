@@ -132,4 +132,8 @@ export class CommonService {
   update_leave(token:string, body:any){
     return this._http.put<any>(environment.url+'/leaves/update',body,this.getHeader(token))
   }
+
+  get_univ(url:string, token:string){
+    return this._http.get<any>(url, this.getHeader(token))
+  }
 }

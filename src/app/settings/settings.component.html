@@ -92,8 +92,8 @@
                                             <form #typeenter>
                                                 <label for="title">Type Name</label>
                                                 <input type="text" [(ngModel)]="type_title" placeholder="Enter Type name" class="form-control mb-3" name="type_title">
-                                                <!-- <label for="count">Type Count</label> -->
-                                                <!-- <input type="number" [(ngModel)]="type_count" placeholder="Count of type" class="form-control mb-3" name="type_count"> -->
+                                                <label for="count">Type Count</label>
+                                                <input type="number" [(ngModel)]="type_count" placeholder="Count of type" class="form-control mb-3" name="type_count">
                                                 <button class="btn btn-outline-info pl-4 pr-4 me-3" (click)="loadLeaveType()">Refresh Data</button>
                                                 <button class="btn btn-outline-primary pl-4 pr-4" (click)="addLeaveType()">Add Data</button>
                                             </form>

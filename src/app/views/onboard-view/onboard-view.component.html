@@ -2,7 +2,7 @@
   <main>
 
     <form #onboardingForm class="mt-4" id="onboarding_form">
-
+      
       <div class="row mt-4 justify-content-center">
         <div class="col-md-6">
           <label>First name</label>
@@ -26,35 +26,41 @@
       <div class="row justify-content-center">
         <div class="col-md-6">
           <label>Experience</label>
-          <input type="text" class="form-control" name="exp" [(ngModel)]="emp.experiance" placeholder="Experience" required>
+          <input type="text" class="form-control" name="exp" [(ngModel)]="emp.experiance" placeholder="How many years ?" required>
         </div>
         <div class="col-md-6">
           <label>Blood Group</label>
-          <input type="text" class="form-control" name="blood_group" [(ngModel)]="emp.blood_group" placeholder="Blood Group" required>
+          <input type="text" class="form-control" name="blood_group" [(ngModel)]="emp.blood_group" placeholder="What id your blood group?" required>
         </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-md-6">
           <label>Marital Status</label>
-          <input type="text" class="form-control" name="marital_status" [(ngModel)]="emp.marital_status" placeholder="Experience" required>
+          <select name="marital_status" [(ngModel)]="emp.marital_status" class="form-control" [selectedIndex]="0">
+            <option value="Married">Married</option>
+            <option value="Married">Unmarried</option>
+            <option value="Married">Divorced</option>
+          </select>
+          <!-- <input type="text" class="form-control" name="marital_status" [(ngModel)]="emp.marital_status" placeholder="Are you married ?" required> -->
         </div>
+
         <div class="col-md-6">
           <label>Date of Birth</label>
-          <input type="text" class="form-control" name="dob" [(ngModel)]="emp.dob" placeholder="Blood Group" required>
+          <input type="text" class="form-control" name="dob" [(ngModel)]="emp.dob" placeholder="xx-xx-xxxx" required>
         </div>
       </div>
 
       <div class="row justify-content-center">
         <div class="col-md-6">
           <label for="">Department</label>
-          <select name="department" [(ngModel)]="emp.department" required class="form-control">
-            <option *ngFor="let  dpt of departments" value="{{dpt.dept_id}}">{{dpt.dept_name}}</option>
+          <select name="department" [(ngModel)]="emp.department" class="form-control">
+            <option *ngFor="let dpt of departments" value="{{dpt.dept_id}}">{{dpt.dept_name}}</option>
           </select>
 
         </div>
         <div class="col-md-6">
           <label for="">Reporting Manager</label>
-          <select name="manager" [(ngModel)]="emp.manager" id="" required class="form-control">
+          <select name="manager" [(ngModel)]="emp.manager" id="" class="form-control">
             <option *ngFor="let  mng of managers" value="{{mng.mid}}">{{mng.user_id.fname}} {{mng.user_id.lname}}</option>
           </select>
         </div>
@@ -64,11 +70,17 @@
           <input type="text" name="userinfo" class="form-control" [(ngModel)]="emp.user_info" (keyup)="searchUser()" placeholder="Enter user info" required>
         </div>
 
+        <div class="col-md-6">
+          <label>CTC (LPA)</label>
+          <input type="text" name="ctc" class="form-control" [(ngModel)]="ctc" placeholder="If package is 540000 PA then please enter 5.4" required>
+        </div>
+
           <div class="col-md-6 mt-4">
             <div class="row">
               <button class="btn btn-outline-info col-5" [disabled]="modal_enable" id="modal_btn" (click)="openUserAddModel(user_add_modal)">ADD NEW USER</button>
               <p class="col-1"></p>
               <button class="btn btn-outline-primary col-6" type="submit" (click)="initiateOnboard()">ONBOARD START</button>
+              <!-- <button class="btn btn-outline-primary col-6" [disabled]="modal_enable" id="modal_btn" (click)="openUserAddModel(popup_count)">ONBOARD START</button> -->
             </div>
 
           </div>
@@ -98,6 +110,41 @@
   <div class="modal-footer">
 <!--    <p class="text-center text-danger me-auto" *ngIf="">Invalid Input</p>-->
     <button type="submit" class="btn btn-outline-info" (click)="register()" [disabled]="">Apply</button>
+  </div>
+  </form>
+</ng-template>
+
+<ng-template #popup_count let-c="close" let-d="dismiss">
+  <form>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Enter Leave Details</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="" *ngFor="let ltype of leave_types">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">{{ltype.title}}</span>
+        </div>
+        <input type="text" name="{{ltype.title}}_temp" id="" [(ngModel)]="temp" value="{{ltype.id}}" hidden>
+        <input type="number" [max]="21" (keyup)="update_leave_count($event, temp)"
+          placeholder="Total no of {{ltype.title}} leaves" class="form-control mb-3 col-6" name="{{ltype.title}}">
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon3">Package</span>
+      </div>
+      <input type="number" class="form-control" id="basic-url" [(ngModel)]="ctc" aria-describedby="basic-addon3" placeholder="e.g 12.5" [ngModelOptions]="{standalone: true}">
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2">LPA</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+<!--    <p class="text-center text-danger me-auto" *ngIf="">Invalid Input</p>-->
+    <button type="submit" class="btn btn-outline-success" (click)="initiateOnboard()">SUBMIT</button>
   </div>
   </form>
 </ng-template>

@@ -57,6 +57,43 @@ export class ListEmployeeComponent implements OnInit {
         minWidth: 50,
         maxWidth: 150,
         sortingOrder: ["asc", "desc"]
+      },
+      {
+        headerName: "Total Paid Leave",
+        // field: "total_leaves",
+        minWidth: 50,
+        maxWidth: 150,
+        sortingOrder: ["asc", "desc"],
+        valueGetter :() =>{
+          return '21'
+        }
+      },
+      {
+        headerName: "Remaining Leaves",
+        field: "total_leaves",
+        minWidth: 50,
+        maxWidth: 150,
+        sortingOrder: ["asc", "desc"],
+        valueSetter : (value: number)=>{
+          return (value>=0)?value:0
+        }
+      },
+      {
+        headerName: "Mobile No",
+        field: "contact_no",
+        minWidth: 50,
+        maxWidth: 150,
+        sortingOrder: ["asc", "desc"]
+      },
+      {
+        headerName: "CTC",
+        field: "ctc",
+        minWidth: 50,
+        maxWidth: 150,
+        sortingOrder: ["asc", "desc"],
+        valueFormatter: (value: any)=>{
+          return "₹ "+value.value
+        }
       }
 
     ];

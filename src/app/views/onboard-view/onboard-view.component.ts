@@ -21,7 +21,9 @@ export class OnboardViewComponent implements OnInit {
     marital_status: undefined,
     department: undefined,
     manager: undefined,
-    user_info: undefined
+    user_info: undefined,
+    ctc : 0,
+    leave_count : []
 
   }
   departments: any;
@@ -35,6 +37,10 @@ export class OnboardViewComponent implements OnInit {
     lname: undefined
 
   }
+  leave_types:any;
+  leave_count:any = [];
+  temp:any;
+  ctc:any;
   disable: any;
   modal_enable : boolean = false;
   token : any ;
@@ -59,11 +65,18 @@ export class OnboardViewComponent implements OnInit {
       if (response['status'])
         this.departments = response['data']
     })
+
+    this.services.load_leave_types(this.token).subscribe(response=>{
+      if(response['status']){
+        this.leave_types = response['data']
+      }
+    })
   }
 
 
   initiateOnboard() {
-
+    this.emp.ctc = this.ctc
+    this.emp.leave_count = this.leave_count
     this.services.onboard(this.emp, this.token).subscribe(response=>{
       if(response['status']==true){
         this.toastr.success(response['message'])
@@ -107,5 +120,9 @@ export class OnboardViewComponent implements OnInit {
         (<HTMLFormElement>document.getElementById("onboarding_form")).reset()
       }
     })
+  }
+
+  update_leave_count(event:any, id:any){
+    this.leave_count.push({id,count:event.target.value})
   }
 }

@@ -47,7 +47,14 @@ export class SettingsComponent implements OnInit {
         headerName: "Type",
         field: "title",
         sortingOrder: ["asc", "desc"],
-        minWidth:250,
+        maxWidth:100,
+        editable: true
+      },
+      {
+        headerName: "Count",
+        field: "max_amount",
+        sortingOrder: ["asc", "desc"],
+        maxWidth:100,
         editable: true
       }
     ]
@@ -94,13 +101,13 @@ export class SettingsComponent implements OnInit {
   addLeaveType(){
     
     if (this.type_title == null || this.type_title=='' 
-       || this.type_title==' '){
+       || this.type_title==' ' || this.type_count==0 || this.type_count==null){
       
       this.toastr.clear()
       this.toastr.warning("Invalid Input")
     }else{
       this.toastr.clear()
-      this.services.add_univ(environment.url+'/leaves/add_leave_type',this.token, {title:this.type_title}).subscribe(response=>{
+      this.services.add_univ(environment.url+'/leaves/add_leave_type',this.token, {title:this.type_title, count:this.type_count}).subscribe(response=>{
         if(response['status']==true){
           this.toastr.success(response['message'])
           this.type_title = ''

@@ -6,6 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import { DatePipe } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -55,6 +56,11 @@ export class CalendarComponent implements OnInit {
   leave_type : any;
   lt:any;
   halfday:any;
+  error:any;
+  leave_balance:any;
+  cpl:any;
+  cost:any;
+  userArray: any;
 
   getNumberOfWeekDays(start:any, end:any, dayNum:any){
     dayNum = dayNum || 0;
@@ -71,6 +77,15 @@ export class CalendarComponent implements OnInit {
       if(new Date(this.selected_date).getDay() == 6 || new Date(this.selected_date).getDay() == 0){
         this.snackbr.open("Can't apply leave on weekend", "OK")
       }else{
+        this.services.get_univ(environment.url+"/leaves/balance", this.token).subscribe(response=>{
+          if(response['status']==true){
+            this.leave_balance = response['lb']
+            this.cpl = response['cpl']
+          }else{
+            this.leave_balance = null
+            this.cpl=null
+          }
+        })
         this.days = (this.halfday)?0.5:this.days
         this.modalService.open(this.content)
         // if (this.lt=='0'){
@@ -131,6 +146,14 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     // this.today = this.datePipe.transform(new Date(),'yyyy-dd-MM');
+    this.services.getTokenUser(this.token).subscribe(resp=> {
+      if (resp["status"]==true){
+        console.log(resp['data'])
+        this.userArray = resp['data']
+      }else {
+        this.toastr.error(resp['message'])
+      }
+    })
     this.today = new DatePipe('en-US').transform(new Date(),'yyyy-MM-dd')
     if(this.days==0){
       this.disable = true
@@ -188,8 +211,11 @@ export class CalendarComponent implements OnInit {
     let body = {
       duration : this.days,
       reason : this.reason,
-      start : this.selected_date
+      start : this.selected_date,
+      type : this.lt
     }
+    console.log(body);
+    
     this.services.apply_leaves(this.token, body).subscribe(response=>{
       if(response['status']==true){
         this.toastr.success(response['message'])
@@ -219,5 +245,26 @@ export class CalendarComponent implements OnInit {
       this.modalService.dismissAll()
     })
 
+  }
+
+  validateDays(){
+    let remains = this.leave_balance - this.days
+    if(remains<0){
+      this.cost = "₹ "+Math.ceil(remains*(-1)*this.cpl)
+    }else{
+      this.cost = null
+    }
+    for(let i=0; i<this.leave_type.length; i++){
+      if(this.lt==this.leave_type[i].id){
+        if(this.days>this.leave_type[i].max_amount){
+          this.disable = true;
+          this.error = this.leave_type[i].title+" can be max "+this.leave_type[i].max_amount
+          break;
+        }else{
+          this.disable = false
+          break;
+        }
+      }
+    }
   }
 }
