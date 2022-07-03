@@ -72,6 +72,10 @@ export class CalendarComponent implements OnInit {
 
   handleDateSelect(selectInfo: any) {
     this.selected_date = selectInfo['startStr']
+    let end_date = selectInfo['endStr']
+    this.days = this.getDays(this.selected_date,end_date)
+    // console.log(this.getDays(this.selected_date,end_date));
+    
     this.loadLeaveType()
     // if(this.today<=this.selected_date){
       if(new Date(this.selected_date).getDay() == 6 || new Date(this.selected_date).getDay() == 0){
@@ -94,6 +98,12 @@ export class CalendarComponent implements OnInit {
       }
  
       
+  }
+  getDays(start:any,end:any){
+    start = new Date(start)
+    end = new Date(end)
+    let days = Math.floor((end.getTime() - start.getTime()) / 1000 / 60 / 60 / 24);
+    return days;
   }
 
   loadLeaveType(){
