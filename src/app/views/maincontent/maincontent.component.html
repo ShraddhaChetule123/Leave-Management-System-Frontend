@@ -1,5 +1,24 @@
-<div id="layoutSidenav_content" style="margin: 5% 5% 20% 20%; padding-bottom: 5%">
-  <main>
-    <app-calendar></app-calendar>
-  </main>
+<div class="row" style="margin: 5% 0% 20% 20%; padding-bottom: 5%">
+  <div class="col-md-9">
+    <div id="layoutSidenav_content" >
+      <main>
+        <app-calendar></app-calendar>
+      </main>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div style="height: 70px;"></div>
+    <div class="card-big-shadow">
+      <div class="card card-just-text" data-background="color" data-color="yellow" data-radius="none">
+
+          <div class="content">
+            <h6 class="category pb-2">Leaves Summery</h6>
+            <p class="text-start ps-2 description">Available : {{leaves_list.avl}} Days</p>
+            <p class="text-start ps-2 description">Assigned  : {{leaves_list.assigned}} Days</p>
+            <p class="text-start ps-2 description">Used      : {{leaves_list.assigned - leaves_list.avl}} Days</p>
+          </div>
+      </div> <!-- end card -->
+  </div>
+  </div>
 </div>
+

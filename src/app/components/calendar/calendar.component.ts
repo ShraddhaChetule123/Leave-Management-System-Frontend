@@ -73,7 +73,7 @@ export class CalendarComponent implements OnInit {
   handleDateSelect(selectInfo: any) {
     this.selected_date = selectInfo['startStr']
     this.loadLeaveType()
-    if(this.today<=this.selected_date){
+    // if(this.today<=this.selected_date){
       if(new Date(this.selected_date).getDay() == 6 || new Date(this.selected_date).getDay() == 0){
         this.snackbr.open("Can't apply leave on weekend", "OK")
       }else{
@@ -92,9 +92,7 @@ export class CalendarComponent implements OnInit {
         //   this.disable = true
         // }
       }
-    }else{
-      
-    }
+ 
       
   }
 
