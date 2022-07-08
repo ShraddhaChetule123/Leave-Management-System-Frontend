@@ -22,7 +22,7 @@
     </select><br>
     <div class="row input-group">
       <div class="col-9 justify-content-center">
-        <input type="number" [(ngModel)]="days" placeholder="How many days?" class="form-control" [disabled]="halfday" (keyup)="validateDays()">
+        <input type="number" [(ngModel)]="days" placeholder="How many days?" class="form-control" [disabled]="true" (keyup)="validateDays()">
       </div>
       <div class="col-3">
         <input type="checkbox" name="halfday" id="" [(ngModel)]="halfday" (click)="days=0.5"> <label for="">Half Day</label>
