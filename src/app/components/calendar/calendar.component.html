@@ -34,7 +34,7 @@
   </div>
   <div class="modal-footer">
     <p class="text-center text-danger me-auto" *ngIf="disable" id="error">Invalid value</p>
-    <p class="me-auto">{{cost}}</p>
+    <p class="me-auto">This will cost you - {{cost}}</p>
     <button type="button" class="btn btn-outline-info" (click)="applyLeave()" [disabled]="disable">Apply</button>
   </div>
 </ng-template>

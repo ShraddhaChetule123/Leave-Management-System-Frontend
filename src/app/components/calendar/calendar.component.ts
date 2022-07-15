@@ -59,7 +59,7 @@ export class CalendarComponent implements OnInit {
   error:any;
   leave_balance:any;
   cpl:any;
-  cost:any;
+  cost:any = "₹ 0";
   userArray: any;
 
   getNumberOfWeekDays(start:any, end:any, dayNum:any){
@@ -260,7 +260,7 @@ export class CalendarComponent implements OnInit {
     if(remains<0){
       this.cost = "₹ "+Math.ceil(remains*(-1)*this.cpl)
     }else{
-      this.cost = null
+      this.cost = '₹ 0'
     }
     for(let i=0; i<this.leave_type.length; i++){
       if(this.lt==this.leave_type[i].id){
